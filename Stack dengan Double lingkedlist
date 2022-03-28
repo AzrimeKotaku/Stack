@@ -9,7 +9,7 @@ struct Angka {
 
 
 //doubly lingkedlist
-//	Buat
+//Buat
 void createDLL(int val) {
 	head = new Angka();
 	head->value = val;
@@ -17,7 +17,7 @@ void createDLL(int val) {
 	head->prev = NULL;
 	tail = head;
 }
-//	Tambah
+//Tambah
 void addFirst(int val) {
 	newNode = new Angka();
 	newNode->value = val;
@@ -49,7 +49,7 @@ void addLast(int val) {
 	tail->next = newNode;
 	tail = newNode;
 }
-//	Hapus
+//Hapus
 void removeFirst() {
 	del = head;
 	head = del->next;
