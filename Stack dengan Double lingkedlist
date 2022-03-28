@@ -1,136 +1,75 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 5
 
 struct Angka {
 	int value;
 	Angka *next;
 	Angka *prev;
-} *head, *tail, *cur, *del, *newNode, *temp;
+} *top, *del;
 
-
-//doubly lingkedlist
-//Buat
-void createDLL(int val) {
-	head = new Angka();
-	head->value = val;
-	head->next = NULL;
-	head->prev = NULL;
-	tail = head;
-}
-//Tambah
-void addFirst(int val) {
-	newNode = new Angka();
+Angka *createDLL(int val) {
+	Angka *newNode = (Angka*)malloc(sizeof(Angka));
 	newNode->value = val;
+	newNode->next = NULL;
 	newNode->prev = NULL;
-	newNode->next = head;
-	head = newNode;
-}
-void addMid(int val, int index) {
-	newNode = new Angka();
-	newNode->value = val;
-	cur = head;
-	int count = 1;
-	while(count < index) {
-		cur = cur->next;
-		count++;
-	}
-	newNode->prev = cur;
-	newNode->next = cur->next;
-	cur->next = newNode;
-	
-	cur = newNode->next;
-	cur->prev = newNode;
+	return newNode;
 }
 void addLast(int val) {
-	newNode = new Angka();
-	newNode->value = val;
-	newNode->prev = tail;
-	newNode->next = NULL;
-	tail->next = newNode;
-	tail = newNode;
-}
-//Hapus
-void removeFirst() {
-	del = head;
-	head = del->next;
-	head->prev = NULL;
-	delete del;
-}
-void removeMid(int index) {
-	cur = head;
-	int count = 1;
-	while(count < index) {
-		cur = cur->next;
-		count++;
-	}
-	del = cur;
-	cur = cur->prev;
-	temp = del->next;
-	temp->prev = cur;
-	cur->next = temp;
-	
-	delete del;
+	Angka *newNode = createDLL(val);
+	newNode->prev = top;
+	top->next = newNode; 
+	top = newNode;
 }
 void removeLast() {
-	del = tail;
-	tail = tail->prev;
-	tail->next = NULL;
+	del = top;
+	top = top->prev;
+	top->next = NULL;
 	delete del;
 }
 
-void printDLL() {
-	cur = head;
-	int count = 1;
-	while(cur != NULL) {
-		printf("Value %d : %d\n", count, cur->value);
-		cur = cur->next;
-		count++;
-	}
-	printf("\n===============================\n\n");
-}
-
-
-//stack
-
-int maksimal = 5;
-
 int count(){
-	if(head == NULL){
-		return 0;
-	}else{
-		int banyak = 0;
-		cur = head;
-		while(cur != NULL){
-			cur = cur -> next;
-			banyak++;
-		}
-		return banyak;
-	}	
+	int banyak = 0;
+	Angka *cur = top;
+	while(cur != NULL){
+		cur = cur -> prev;
+		banyak++;
+	}
+	return banyak;	
 }
 
-void push(){
-	if(count() == maksimal){
-		printf("\nStack full\n");
-	}else if(count() == 0){
-		createDLL(1);
+void push(int val){
+	if(count() >= MAX){
+		printf("\nStack Overflow\n");
+	}else if(top == NULL){
+		Angka *newNode = createDLL(val);
+		top = newNode;
 	}else{
-		int i;
-		addLast(i);
+		addLast(val);
 	}
 }
 
 void pop(){
-	removeLast();
+	if(top == NULL) {
+		printf("Stack tidak ditemukan!\n");
+	}else if(top->next == NULL && top->prev == NULL) {
+		free(top);
+		top = NULL;
+		printf("Stack dihapus!\n");
+	}else{
+		removeLast();
+		printf("top dihapus!\n");
+	}
 }
 
 
 
 void display(){
-	if(head == NULL){
+	if(top == NULL){
 		printf("stack kosong\n");
 	}else{
 		int banyak = 0;
-		cur = tail;
+		Angka *cur = top;
 		printf("\n\n---Stack---\n");
 		while(cur != NULL){
 			printf("stack : %d\n", cur->value);
@@ -140,31 +79,16 @@ void display(){
 	}	
 }
 
-
-
 int main() {
-	puts("Double Lingkedlist");
-	createDLL(1);
-	for(int i = 2; i < 10; i++) {
-		addLast(i);
-	}
-	printDLL();
-	
-	addFirst(20);
-	addMid(555, 6);
-	addLast(30);
-	
-	removeFirst();
-	removeLast();
-	removeMid(5);
-	
-	puts("Double Lingkedlist");
-	printDLL();
-	
-	
-	
-	display();
+	push(1);
+	push(2);
+	push(3);
+	push(4);
+	push(5);
+	push(6);
+	pop();
 	pop();
 	display();
+
 	return 0;
 }
