@@ -1,0 +1,82 @@
+#include <stdio.h>
+#define max 5
+
+int stack[max];
+int top = -1;
+
+void push(int);
+int pop();
+void display();
+
+int main() {
+	int choice, num;
+	int exit = 1;
+	while(exit){
+		puts("\nEnter your choice");
+		puts("1. Push");
+		puts("2. Pop");
+		puts("3. Display");
+		puts("4. Exit");
+		
+		printf("\nChoice : ");
+		scanf("%d", &choice);
+		
+		switch(choice){
+			case 1:
+				printf("Inputkan data : ");
+				scanf("%d", &num);
+				push(num);
+				break;
+				
+			case 2:
+				num = pop();
+				break;
+				
+			case 3:
+				display();
+				break;
+				
+			case 4:
+				exit = 0;
+				puts("Thank you");
+				break;
+			default:
+				puts("invalid");			
+		}		
+	}
+	return 0;
+}
+
+void push(int element){
+	if(top == max -1){
+		puts("Stack overflow");
+		return;
+	}
+	
+	top = top +1;
+	stack[top] = element;
+	
+}
+
+int pop(){
+	int element;
+	if(top == -1){
+		puts("Stack is empty");
+		return 0;
+	}
+	
+	element = stack[top];
+	top = top -1;
+	printf("\n%d dihapus\n", element);
+	return element;
+}
+
+void display(){
+	if(top == -1){
+		puts("Stack is empty");
+	}
+	
+	for(int i=top; i>=0; i--){
+		printf("%d\n", stack[i]);
+	}
+}
